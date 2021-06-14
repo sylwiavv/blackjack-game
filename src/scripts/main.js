@@ -1,9 +1,10 @@
-let firstCard = 7;
-let secondCard = 11;
+let firstCard = getRandomCard();
+let secondCard = getRandomCard();
+let cards = [firstCard, secondCard];
+let sum = firstCard + secondCard;
 let hasBlackJack = false;
 let isAlive = true;
 let message = " ";
-let cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 const startBtn = document.querySelector('#start-game');
 const sumEl = document.querySelector('#sum');
@@ -11,13 +12,32 @@ const messageEl = document.querySelector('#message-el');
 const cardsEl = document.querySelector('#cards');
 const newCarts = document.querySelector('#new-carts');
 
-let sum = firstCard + secondCard;
+const startGame = () => renderGame();
+
+function getRandomCard() {
+    let randomNumber = Math.floor( Math.random() * 13 ) + 1;
+
+    if (randomNumber > 10) {
+        return 10
+    } else if (randomNumber === 1) {
+        return 11
+    } else {
+        return randomNumber;
+    }
+}
 
 const renderGame = () => {
-    sumEl.textContent = 'Sum: ' + sum;
+    cardsEl.textContent = "Cards: ";
+
+    for(let i = 0; i < cards.length; i++) {
+        console.log(cards[i]);
+        cardsEl.textContent += cards[i] + " ";
+    }
+
+    sumEl.textContent = "Sum: " + sum;
+
     if (sum < 21) {
         message = "Do you want to draw a new card? 🙂";
-        isAlive = false;
     } else if (sum === 21) {
         message = "Wohoo! You've got Blackjack! 🥳";
         hasBlackJack = true;
@@ -25,21 +45,19 @@ const renderGame = () => {
         message = "You're out of the game! 😭";
         isAlive = false;
     }
+
     messageEl.textContent = message;
-    cardsEl.textContent = 'Cards: ' + firstCard + ' ' + secondCard;
 }
 
-const startGame = () => renderGame();
-
 const newCard = () => {
-    console.log("Drawing a new card from the deck!");
-    let card = 7;
+    let card = getRandomCard();
     sum += card;
-    startGame();
+    cards.push(card);
+    renderGame();
 }
 
 startBtn.addEventListener("click", () => {
-    renderGame();
+    startGame();
 });
 
 newCarts.addEventListener("click", () => {
