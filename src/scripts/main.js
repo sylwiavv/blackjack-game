@@ -36,7 +36,6 @@ const renderGame = () => {
     cardsEl.textContent = "Cards: ";
 
     for (let i = 0; i < cards.length; i++) {
-        console.log(cards[i]);
         cardsEl.textContent += cards[i] + " ";
     }
 
